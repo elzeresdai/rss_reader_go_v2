@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+
+  rss_reader_v2:
+    build:
+      context: ../rss_reader_go_v2
+      dockerfile: ../rss_reader_go_v2/Dockerfile
+    restart: always
+    ports:
+      - "8080:80"
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: users
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-data/postgres/:/var/lib/postgresql/data/
+
+  adminer:
+    container_name: adminer-pgs
+    image: adminer
+    depends_on:
+      - postgres
+    restart: always
+    ports:
+      - "9008:8080"
