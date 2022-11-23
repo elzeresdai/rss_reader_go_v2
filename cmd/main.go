@@ -3,8 +3,13 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"net/http"
+	"rss_reader_go_v2/pkg/rss_reader"
 )
+
+var feedURLs = []string{
+	"https://blog.golang.org/feed.atom",
+	"http://feeds.kottke.org/main",
+}
 
 func main() {
 	// Echo instance
@@ -18,10 +23,12 @@ func main() {
 	e.GET("/", hello)
 
 	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":8070"))
+	return
 }
 
 // Handler
 func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
+	rss_reader.FetchFeeds(feedURLs)
+	return nil
 }
