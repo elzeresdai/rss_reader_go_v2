@@ -21,6 +21,7 @@ func main() {
 
 	// Routes
 	e.GET("/", hello)
+	e.POST("/feeds", GetRssData)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":8070"))

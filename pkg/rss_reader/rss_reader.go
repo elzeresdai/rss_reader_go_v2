@@ -2,6 +2,7 @@ package rss_reader
 
 import (
 	"encoding/xml"
+	"fmt"
 	"io"
 	"net/http"
 	"time"
@@ -12,7 +13,7 @@ type feedResult struct {
 	err  error
 }
 
-func FetchFeeds(urls []string) []*Feed {
+func FetchFeeds(urls []string) ([]*RssItem, error) {
 	feedCh := make(chan feedResult)
 	for _, url := range urls {
 		go fetchUrl(url, feedCh)
@@ -27,8 +28,10 @@ func FetchFeeds(urls []string) []*Feed {
 		}
 		feeds = append(feeds, res.feed)
 	}
+	ololo, _ := parseToJson(feeds)
+	fmt.Println(ololo)
 
-	return feeds
+	return nil, nil
 
 }
 
@@ -65,8 +68,12 @@ func fetchUrl(url string, feedCh chan feedResult) {
 func parseBody(body []byte) (*Feed, error) {
 	feed := Feed{}
 	err := xml.Unmarshal(body, &feed)
+	//ololo, er := json.Marshal(feed)
+	//fmt.Println(string(ololo))
+	//fmt.Println(feed)
 	if err != nil {
 		return nil, err
 	}
+
 	return &feed, nil
 }
