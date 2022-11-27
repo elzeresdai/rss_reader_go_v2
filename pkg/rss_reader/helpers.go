@@ -6,8 +6,9 @@ import (
 
 func parseToJson(feeds []*Feed) ([]*RssItem, error) {
 	var rssArr []*RssItem
+	itm := Feed{}
 	for _, val := range feeds {
-		itm := Feed{}
+		//itm := Feed{}
 		item, err := json.Marshal(val)
 		if err != nil {
 			return nil, err
@@ -18,14 +19,14 @@ func parseToJson(feeds []*Feed) ([]*RssItem, error) {
 			return nil, err
 		}
 
-		for i, v := range itm.Entries {
+		for _, v := range itm.Entries {
 			rssI := RssItem{
-				v[i].Title,
+				v[0].Title,
 				val.Title,
 				val.Source[0].HREF,
-				v[i].SourceURL[0].HREF,
-				v[i].Published,
-				v[i].Description,
+				v[0].SourceURL[0].HREF,
+				v[0].Published,
+				v[0].Description,
 			}
 
 			rssArr = append(rssArr, &rssI)

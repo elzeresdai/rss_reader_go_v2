@@ -7,12 +7,12 @@ type Items struct {
 }
 
 type RssItem struct {
-	Title       string    `json:"title"`
-	Source      string    `json:"source"`
-	SourceURL   string    `json:"source_url"`
-	Links       string    `json:"links"`
-	PublishDate time.Time `json:"publish_date"`
-	Description string    `json:"description"`
+	Title       string    `json:"title,omitempty"`
+	Source      string    `json:"source,omitempty"`
+	SourceURL   string    `json:"source_url,omitempty"`
+	Links       string    `json:"links,omitempty"`
+	PublishDate time.Time `json:"publish_date,omitempty"`
+	Description string    `json:"description,omitempty"`
 }
 
 type Feed struct {
